@@ -16,6 +16,7 @@ class App extends Component {
     state = {
         searchText: '',
         isDisplay: false,
+        showFilter: false,
 		suggestions: [],
 		checkedFilter: ''
     }
@@ -33,14 +34,18 @@ class App extends Component {
 			});
             if (dt.length === 0) {
                 dt.push({message: 'NotFound', searchedText: sTxt});
+                this.setState({isDisplay: true, suggestions: dt, showFilter: false});
+            }else{
+                this.setState({showFilter: true});
+                this.setState({isDisplay: true, suggestions: dt, showFilter: true});
             }
-            this.setState({isDisplay: true, suggestions: dt});
+            
         } else {
-            this.setState({isDisplay: false, suggestions: []});
+            this.setState({isDisplay: false, suggestions: [], showFilter: false});
         }
     }
     radioChangeHandler = (that) => {
-		const filterOption = that.target.value;
+        const filterOption = that.target.value;
 		const sTxt = this.state.searchText;
 		this.sortByOption(filterOption.toLowerCase()).then(res => {
 			this.setState({isDisplay: true, checkedFilter: filterOption, suggestions: res});
@@ -53,10 +58,11 @@ class App extends Component {
 	}
 	
 	sortByOption = (option) => {
+        const filterOption = option === 'details' ? 'name' : option;
 		return new Promise((resolve, reject) => {
 			let suggestions = [...this.state.suggestions];
 			suggestions.sort(function(a, b) {
-				var x = a[option]; var y = b[option];
+				var x = a[filterOption]; var y = b[filterOption];
 				return ((x < y) ? -1 : ((x > y) ? 1 : 0));
 			});
 			resolve(suggestions);
@@ -68,8 +74,8 @@ class App extends Component {
                 <Provider store={store}>
                     <Router>
                         <div>
-                            <Search onInput={this.inputChangeHandler} clicked={this.buttonClicked}/>
-                            <Filter changed={(e) => this.radioChangeHandler(e)} checkedFilter={this.state.checkedFilter}/>
+                            {window.location.pathname.includes('locations') ? null :  <Search onInput={this.inputChangeHandler} clicked={this.buttonClicked} />}
+                            {this.state.showFilter ? <Filter changed={(e) => this.radioChangeHandler(e)} checkedFilter={this.state.checkedFilter}/> : null}
                             <SearchResult show={this.state.isDisplay} suggestions={this.state.suggestions}/>
                             <Route exact path="/" component={HomeView}/>
                             <Route exact path="/apartments/:apartmentId" component={ApartmentView}/>

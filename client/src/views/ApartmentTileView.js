@@ -30,6 +30,9 @@ export default class ApartmentTileView extends React.Component {
                     <span className="text-truncate text-first-capitalize _1NES5HH5UNUjUVK5_-d-AG">{apartment.title}</span>
                   </div>
                   <div className="_17om8IEGFeu2W2TBOJ6xQs Lsdn2hC-tehVod76x4HzK text-truncate">
+                    <span>{apartment.owner.email} m²</span>
+                  </div>
+                  <div className="_17om8IEGFeu2W2TBOJ6xQs Lsdn2hC-tehVod76x4HzK text-truncate">
                     <span>{apartment.size} m²</span>
                   </div>
                   <div className="f9YmKwMaSOdtYnk_Qz-iT">

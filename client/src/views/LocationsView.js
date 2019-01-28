@@ -1,6 +1,6 @@
 import React from 'react';
-import data from '../sampleData/data.json';
-// import classes from ''
+import data from '../sampleData/appartmentsData.json';
+import homeIcon from '../assets/images/home-icon.png';
 
 const locations = (props) => {
     const jsonData = data;
@@ -8,17 +8,26 @@ const locations = (props) => {
     if (jsonData) {
         filteredData = jsonData.filter(dt => {
             return dt
-                .address
-                .toLowerCase() === props.match.params.location.toLowerCase();
+                .location
+                .toLowerCase() === props
+                .match
+                .params
+                .location
+                .toLowerCase();
         }).map(dt => {
-            return <div className='Card' key={dt._id}>
-                <span key={dt._id + 'appartment1'}>{dt.address}</span><br />
-                <span key={dt._id + 'appartment2'}>{dt.email}</span><br />
-                <span key={dt._id + 'appartment3'}>{dt._id}</span><br />
-                {/* <span key={dt._id + 'appartment'}>{dt.address}-{dt.email}</span>
-                <span key={dt._id + 'appartment'}>{dt.address}-{dt.email}</span> */}
+            const suggestion = dt;
+            return <div className="Card" key={dt.id}>
+                <img src={homeIcon} className="Home" alt='Not found'/>
+                <h4 className="Suggestion-Location" title="Location" key={suggestion.id}>{suggestion.location}</h4><br />
+                <span className="Suggestion-Name" title="Owner Address">{suggestion.address}</span><br />
+                <span className="Suggestion-Name" title="Owner Name">{'Owner: ' + suggestion.name}</span><br />
+                <span className="Suggestion-Contact">Email:</span>
+                <span className="Suggestion-Email" title="Owner Email">{suggestion.email}</span>
             </div>
         });
+        if(filteredData.length === 0) {
+            return <span className="Not-Found" key="notfound">No Result Found with '<span key="notFoundChild">{props.match.params.location}</span>'</span>
+        }
     }
     return (
         <div>

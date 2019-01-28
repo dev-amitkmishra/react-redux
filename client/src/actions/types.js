@@ -4,3 +4,4 @@ export const PRICE = 'PRICE';
 export const SIZE = 'SIZE';
 export const AMENITIES = 'AMENITIES';
 export const SERVICES = 'SERVICES';
+export const DETAILS = 'DETAILS';
