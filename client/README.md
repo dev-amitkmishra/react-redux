@@ -1,5 +1,3 @@
-# Homelike client for assignment
-
 ## Background information
 
 ### installation & run
